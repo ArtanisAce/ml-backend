@@ -9,6 +9,7 @@ const helmet = require('helmet');
 const app = express();
 
 app.use(helmet());
+app.use(cors());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
