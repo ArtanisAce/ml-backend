@@ -5,6 +5,9 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const axios = require('axios');
+const cors = require('cors');
+const apiKey = require('./config-vars').apiKey;
 
 const app = express();
 
@@ -20,7 +23,31 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-  res.send('hola');
+  res.send('Server is running!');
+});
+
+app.get('/get-config', async (req, res) => {
+  try {
+    const response = await axios.get(`https://api.themoviedb.org/3/configuration?api_key=${apiKey}`);
+    console.log(response.data);
+    res.send(response.data);
+  } catch(e) {
+    console.error(e);
+    res.send(e.response.statusText);
+  }
+});
+
+app.get('/search-film', async (req, res) => {
+  console.log(req.params);
+  const params = req.params;
+  try {
+    const response = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${film}`);
+    console.log(response.data);
+    res.send(response.data);
+  } catch(e) {
+    console.error(e);
+    res.send(e.response.statusText);
+  }
 });
 
 module.exports = app;
