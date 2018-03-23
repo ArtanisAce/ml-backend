@@ -29,7 +29,6 @@ app.get('/', (req, res) => {
 app.get('/get-config', async (req, res) => {
   try {
     const response = await axios.get(`https://api.themoviedb.org/3/configuration?api_key=${apiKey}`);
-    console.log(response.data);
     res.send(response.data);
   } catch(e) {
     console.error(e);
@@ -38,8 +37,7 @@ app.get('/get-config', async (req, res) => {
 });
 
 app.get('/search-film', async (req, res) => {
-  console.log(req.params);
-  const params = req.params;
+  const film = req.query.film;
   try {
     const response = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${film}`);
     console.log(response.data);
