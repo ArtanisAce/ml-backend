@@ -28,11 +28,11 @@ app.get('/', (req, res) => {
 
 app.get('/get-config', async (req, res) => {
   try {
-    const response = await axios.get(`https://api.themoviedb.org/3/configuration?api_key=${apiKey}`);
+    const response = await axios.get(`https://api.themoviedb.org/3/configuration?api_key=12233`);
     res.send(response.data);
   } catch(e) {
-    console.error(e);
-    res.send(e.response.statusText);
+    console.error(e.response.data);
+    res.send(e.response.data);
   }
 });
 
@@ -43,8 +43,8 @@ app.get('/search-film', async (req, res) => {
     console.log(response.data);
     res.send(response.data);
   } catch(e) {
-    console.error(e);
-    res.send(e.response.statusText);
+    console.error(e.response.data);
+    res.send(e.response.data);
   }
 });
 
