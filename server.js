@@ -28,31 +28,15 @@ app.get('/', (req, res) => {
   res.send('Server is running!');
 });
 
-app.get('/get-config', async (req, res) => {
-  try {
-    const response = await axios.get(`https://api.themoviedb.org/3/configuration?api_key=${apiKey}`);
-    res.send(response.data);
-  } catch (e) {
-    const status = e.response.status;
-    const statusText = e.response.statusText;
-    const errorMessage = e.response.data.status_message;
-    console.error(`Error -> ${statusText}: ${errorMessage}`);
-    res.status(status).send(statusText);
-  }
+app.get('/get-config', (req, res) => {
+  const url = `https://api.themoviedb.org/3/configuration?api_key=${apiKey}`;
+  tmdbRequest(req, res, url);
 });
 
-app.get('/search-film', async (req, res) => {
+app.get('/search-film', (req, res) => {
   const film = req.query.film;
-  try {
-    const response = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${film}`);
-    res.send(response.data);
-  } catch (e) {
-    const status = e.response.status;
-    const statusText = e.response.statusText;
-    const errorMessage = e.response.data.status_message;
-    console.error(`Error -> ${statusText}: ${errorMessage}`);
-    res.status(status).send(statusText);
-  }
+  const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${film}`;
+  tmdbRequest(req, res, url);
 });
 
 const tmdbRequest = async (req, res, url) => {
