@@ -11,11 +11,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  passwordConf: {
-    type: String,
-    required: true
-  },
-  favouriteGenre: {
+  genre: {
     type: String,
     required: true
   }

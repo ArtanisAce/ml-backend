@@ -9,8 +9,35 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const axios = require("axios");
 const cors = require("cors");
+const mongoose = require("mongoose");
 const apiKey = require("./config/config-vars").apiKey;
-const User = require('./models/user');
+const User = require("./models/user");
+// const MongoStore = require('connect-mongo')(session);
+
+// //connect to MongoDB
+// mongoose.connect('mongodb://localhost/test');
+// var db = mongoose.connection;
+
+// //handle mongo error
+// db.on('error', console.error.bind(console, 'connection error:'));
+// db.once('open', function () {
+//   // we're connected!
+// });
+const option = {
+  socketTimeoutMS: 30000,
+  keepAlive: true,
+  reconnectTries: 30000
+};
+
+const mongoURI = "mongodb://localhost/test";
+mongoose.connect(mongoURI, option).then(
+  () => {
+    console.log('Connected succesfully!')
+  },
+  (err) => {
+    console.error.bind(console, 'connection error:')
+  }
+);
 
 const app = express();
 
@@ -42,26 +69,21 @@ app.get("/search-film", (req, res) => {
 });
 
 app.post("/create-user", (req, res) => {
-  if (
-    req.query.username &&
-    req.query.password &&
-    req.query.passwordConf &&
-    req.query.genre
-  ) {
+  if (req.body.email && req.body.password && req.body.genre) {
     const userData = {
-      username: req.query.username,
-      password: req.query.password,
-      passwordConf: req.query.passwordConf,
-      email: req.query.genre
+      email: req.body.genre,
+      password: req.body.password,
+      genre: req.body.genre
     };
-    
+
     User.create(userData, (err, user) => {
       // if (err) {
       //   return next(err);
       // } else {
       //   return res.sendStatus(201);
       // }
-      return err ? next(err) : res.sendStatus(201);
+      console.log(userData);
+      return err ? console.error(err) : res.sendStatus(201);
     });
   }
 });
