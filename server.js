@@ -29,10 +29,10 @@ const option = {
   reconnectTries: 30000
 };
 
-const mongoURI = "mongodb://localhost/test";
+const mongoURI = "mongodb://localhost/ml-app";
 mongoose.connect(mongoURI, option).then(
   () => {
-    console.log('Connected succesfully!')
+    console.log('Connected to db succesfully!')
   },
   (err) => {
     console.error.bind(console, 'connection error:')
@@ -71,7 +71,7 @@ app.get("/search-film", (req, res) => {
 app.post("/create-user", (req, res) => {
   if (req.body.email && req.body.password && req.body.genre) {
     const userData = {
-      email: req.body.genre,
+      email: req.body.email,
       password: req.body.password,
       genre: req.body.genre
     };
