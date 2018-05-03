@@ -77,11 +77,6 @@ app.post("/create-user", (req, res) => {
     };
 
     User.create(userData, (err, user) => {
-      // if (err) {
-      //   return next(err);
-      // } else {
-      //   return res.sendStatus(201);
-      // }
       console.log(userData);
       return err ? console.error(err) : res.sendStatus(201);
     });
